@@ -107,6 +107,12 @@ skills/tiktok-hotspot-monitor/
 ├── README.md              # 本文档
 ├── metadata.json          # 机器可读元数据
 ├── requirements.txt       # Python 依赖
+├── examples/
+│   ├── report.html                    # 完整示例报告
+│   ├── report_preview.png             # 概览截图
+│   ├── report_top.png                 # 顶部截图
+│   ├── report_mid.png                 # 中部截图
+│   └── report_bottom.png              # 底部截图
 ├── scripts/
 │   ├── crawl_tiktok_hotspots.py          # 主爬虫
 │   ├── analyze_tiktok_hotspots.py        # 离线分析器
@@ -118,6 +124,14 @@ skills/tiktok-hotspot-monitor/
     ├── _tiktok_hotspot_apify_500_config.json  # 500 条验证配置
     └── .env.example                      # 环境变量模板
 ```
+
+## 报告预览
+
+![报告概览](examples/report_top.png)
+![信号分析](examples/report_mid.png)
+![长期热词与排行](examples/report_bottom.png)
+
+完整示例报告：[examples/report.html](examples/report.html)
 
 ## 输出目录
 
