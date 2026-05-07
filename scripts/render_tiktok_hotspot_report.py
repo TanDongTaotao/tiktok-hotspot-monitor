@@ -188,6 +188,7 @@ def video_card(video: dict[str, Any], index: int, mode: str) -> str:
     score_label = "趋势分" if is_rising else "热度分"
     href = html.escape(str(video.get("url") or "#"), quote=True)
     return f"""
+    <a href="{href}" target="_blank" rel="noreferrer" class="video-card-link">
     <article class=\"video-card\">
       <div class=\"rank\">{index:02d}</div>
       <div class=\"video-main\">
@@ -196,7 +197,7 @@ def video_card(video: dict[str, Any], index: int, mode: str) -> str:
           <span class=\"status {label_class(label)}\">{timeliness_label_text(label)}</span>
         </div>
         <h3>{text(video.get('title'))}</h3>
-        <a href=\"{href}\" target=\"_blank\" rel=\"noreferrer\">@{text(video.get('creator'))}</a>
+        <span class="creator">@{text(video.get('creator'))}</span>
         <div class=\"chip-row\">{chips(video.get('hashtags') or [])}</div>
       </div>
       <div class=\"video-data\">
@@ -207,6 +208,7 @@ def video_card(video: dict[str, Any], index: int, mode: str) -> str:
         {stat('音乐', f"{music.get('track') or '—'} — {music.get('artist') or '—'}")}
       </div>
     </article>
+    </a>
     """
 
 
@@ -464,6 +466,8 @@ def render_html(report: dict[str, Any]) -> str:
     .signal-list {{ display:grid; gap:10px; }}
     .signal-card {{ display:grid; grid-template-columns:40px minmax(0,1fr); gap:var(--space-md); align-items:start; padding:14px 0; border-top:1px solid var(--border); }}
     .signal-card:first-child {{ border-top:1px solid var(--border-visible); }}
+    .video-card-link {{ display:block; color:inherit; text-decoration:none; }}
+    .video-card-link:hover article {{ border-color:var(--accent); }}
     .signal-rank {{ font-family:'Space Mono',monospace; color:var(--text-disabled); font-size:16px; }}
     .signal-main {{ min-width:0; }}
     .signal-name {{ color:var(--text-display); font-size:18px; line-height:1.25; overflow-wrap:anywhere; word-break:break-word; }}

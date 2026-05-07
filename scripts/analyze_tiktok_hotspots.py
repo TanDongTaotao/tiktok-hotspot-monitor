@@ -329,7 +329,7 @@ def video_age_hours(record: dict[str, Any], current_time: datetime) -> float | N
     return hours_between(parse_datetime(record.get("upload_date") or record.get("timestamp")), current_time)
 
 
-def rank_recent_videos_by_age(records: list[dict[str, Any]], previous_by_id: dict[str, dict[str, Any]], current_time: datetime, previous_time: datetime | None, limit: int = 5) -> list[dict[str, Any]]:
+def rank_recent_videos_by_age(records: list[dict[str, Any]], previous_by_id: dict[str, dict[str, Any]], current_time: datetime, previous_time: datetime | None, limit: int = 10) -> list[dict[str, Any]]:
     grouped: list[dict[str, Any]] = []
     for bucket in RECENT_VIDEO_BUCKETS:
         bucket_records = [
@@ -407,10 +407,10 @@ def analyze(records: list[dict[str, Any]], snapshot_path: Path, top: int, previo
         "unique_video_count": len(unique_records),
         "source_counts": dict(Counter(record.get("source_type") for record in unique_records)),
         "top_videos": [short_video(record, previous_by_id.get(str(record.get("video_id"))), current_time, previous_time) for record in top_videos],
-        "recent_videos_by_age": rank_recent_videos_by_age(unique_records, previous_by_id, current_time, previous_time),
+        "recent_videos_by_age": rank_recent_videos_by_age(unique_records, previous_by_id, current_time, previous_time, limit=top),
         "top_rising_videos": [short_video(record, previous_by_id.get(str(record.get("video_id"))), current_time, previous_time) for record in top_rising_videos],
         "top_hashtags": rank_hashtags(unique_records, previous_unique_records, current_time, top),
-        "recent_signals_by_age": rank_recent_signals_by_age(unique_records, current_time),
+        "recent_signals_by_age": rank_recent_signals_by_age(unique_records, current_time, limit=top),
         "recent_terms_by_age": rank_recent_terms_by_age(unique_records, current_time),
         "recent_hashtags_by_age": rank_recent_hashtags_by_age(unique_records, current_time),
         "established_terms": rank_established_terms(unique_records, current_time, top),
@@ -665,7 +665,7 @@ def aggregate_terms_by_age(records: list[dict[str, Any]], current_time: datetime
     return grouped
 
 
-def rank_recent_signals_by_age(records: list[dict[str, Any]], current_time: datetime, limit: int = 5) -> list[dict[str, Any]]:
+def rank_recent_signals_by_age(records: list[dict[str, Any]], current_time: datetime, limit: int = 10) -> list[dict[str, Any]]:
     content_groups = aggregate_terms_by_age(records, current_time, extract_content_terms, limit)
     hashtag_groups = aggregate_terms_by_age(records, current_time, extract_hashtag_terms, limit)
     groups: list[dict[str, Any]] = []
