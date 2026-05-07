@@ -1,6 +1,12 @@
-# TikTok Hotspot Monitor Skill v2
+<p align="center">
+  <a href="README.md">中文</a> | <a href="readme-en.md">English</a>
+</p>
 
-TikTok 美区女装热点监控 Skill。一个完整的 Agent 技能包，覆盖抓取、分析、报告全流程。
+# TikTok Hotspot Monitor Skill
+
+TikTok 热点监控 Skill。通过 Apify Actor 或 Playwright 本地抓取 TikTok 视频 metadata，离线分析热点信号并生成静态 HTML 报告。
+
+本 Skill 默认配置了一套**美区女装关键词**作为示例，你也可以自定义任意关键词、话题标签、达人、音乐源，监控任何领域的热点。
 
 ## 架构
 
@@ -158,5 +164,8 @@ top_signals = report["top_videos"][:5]
 
 ## 版本记录
 
-- 2.0.0：完整 10 层 Skill 框架，约束系统、状态机、评估标准
-- 1.0.0：初始打包，爬取/分析/报告流水线
+- 1.0.0：初始版本。支持 Apify Actor 抓取（含 5 窗口高赞优先策略）和 Playwright MCP 本地验证，离线分析（热度分/覆盖分/新词检测），静态 HTML 报告生成。
+
+## 开源协议
+
+MIT License。详见项目根目录 [LICENSE](LICENSE) 文件。
