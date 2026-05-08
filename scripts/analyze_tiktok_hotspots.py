@@ -70,6 +70,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--previous-snapshot", type=Path, default=None, help="Earlier JSONL snapshot for growth comparison. Defaults to latest non-empty snapshot before --snapshot.")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--top", type=int, default=10, help="Number of ranked items per section.")
+    parser.add_argument("--download", action="store_true", help="Download videos after analysis.")
     return parser.parse_args()
 
 

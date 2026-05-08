@@ -12,6 +12,17 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_ANALYSIS_GLOB = "data/tiktok_hotspot_analysis/tiktok_hotspot_analysis_*.json"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "data" / "tiktok_videos"
 
+def _read_crawl_timestamp(analysis_path: Path) -> str:
+    try:
+        report = json.loads(analysis_path.read_text(encoding="utf-8"))
+        cm = report.get("crawl_metrics") or {}
+        ts = cm.get("crawl_timestamp")
+        if ts:
+            return str(ts)
+    except Exception:
+        pass
+    return ""
+
 AGE_BUCKET_LABELS = {
     "within_1d": "近一天",
     "within_3d": "近三天",
@@ -193,6 +204,10 @@ def main() -> int:
         return 1
 
     output_dir = resolve_path(args.output_dir)
+    parent_ts = _read_crawl_timestamp(report_path)
+    if parent_ts:
+        output_dir = output_dir / parent_ts
+        print(f"parent timestamp: {parent_ts}")
     downloaded = 0
     skipped = 0
     failed = 0
